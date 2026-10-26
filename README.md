@@ -39,7 +39,7 @@ The supported deployment target is Linux. Create an isolated Python environment:
 ```sh
 python3 -m venv venv
 . venv/bin/activate
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt -c security-constraints.txt
 cp .env.example .env
 # Edit .env first. Use shell-compatible quoting for JSON and values with spaces.
 set -a
@@ -81,6 +81,14 @@ Requires FFmpeg and the download tools in requirements.txt. MUSIC_ROOT selects t
 ## Verification
 
 See [VALIDATION.md](VALIDATION.md) for the checks performed on this publication snapshot and the remaining deployment checks. A source check is not an end-to-end test of Discord, Telegram, music sites or your host.
+
+The security constraints include the tested SpotDL 4.6 dependency stack. Upgrade
+in a separate environment first, run `python -m pip check` and
+`python -m spotdl --help`, then audit the resulting environment with `pip-audit`. The tested stack
+uses FastAPI 0.162.0, Starlette 1.10.0, AnyIO 4.15.1 and Brotli 1.2.1. Its 69
+installed distributions had no reported vulnerabilities in the audit performed
+on 2026-10-26. This result is a dated dependency check, not a guarantee against
+future advisories or an end-to-end download test.
 
 ## Privacy and upstream services
 
